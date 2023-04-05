@@ -130,7 +130,7 @@
     <div class="container-fluid">
         <div class="row">
             @include("admin.includes.sidebar")
-            
+
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="row">
                     <div class="d-flex align-items-center justify-content-between mt-4 mb-3">
@@ -145,31 +145,37 @@
                             </form>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <form action="{{ route('usersEdit') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                     <label class="form-label">Имя</label>
                         <input type="text" class="form-control form-control-sm" name="name" value="{{ $user->name }}">
-                    </div> 
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Телефон</label>
                         <input type="tel" class="form-control form-control-sm tel" name="tel" value="{{ $user->tel }}">
-                    </div> 
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <input type="email" class="form-control form-control-sm" name="email" value="{{ $user->email }}">
-                    </div> 
+
+                        @error('email')
+                            <div class="invalid-feedback d-block">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Новый пароль</label>
                         <input type="text" class="form-control form-control-sm" name="password" value="">
-                    </div> 
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Роль</label>
                         <select class="form-select form-select-sm" name="role" >
                             <option value="">Выберите роль</option>
                             <option value="1" @if($user->role == 1) selected @endif>Логист</option>
-                            <option value="2" @if($user->role == 2) selected @endif>Сотрудник СБ</option>   
+                            <option value="2" @if($user->role == 2) selected @endif>Сотрудник СБ</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -185,7 +191,7 @@
                             <option value="C" @if($user->otdel == "C") selected @endif>C</option>
                             <option value="СБ" @if($user->otdel == "СБ") selected @endif>СБ</option>
                         </select>
-                    </div>        
+                    </div>
 
                     <input type="hidden" name="id" value="{{ $user->id }}">
 
@@ -219,23 +225,23 @@
 
     <script>
       $(document).ready(function (e) {
-         $('#stamp_1').change(function(){         
-          let reader = new FileReader(); 
-          reader.onload = (e) => { 
-            $('#preview-image-before-upload-1').attr('src', e.target.result); 
+         $('#stamp_1').change(function(){
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            $('#preview-image-before-upload-1').attr('src', e.target.result);
           }
-          reader.readAsDataURL(this.files[0]);      
-         }); 
+          reader.readAsDataURL(this.files[0]);
+         });
 
-         $('#stamp_2').change(function(){         
-          let reader = new FileReader(); 
-          reader.onload = (e) => { 
-            $('#preview-image-before-upload-2').attr('src', e.target.result); 
+         $('#stamp_2').change(function(){
+          let reader = new FileReader();
+          reader.onload = (e) => {
+            $('#preview-image-before-upload-2').attr('src', e.target.result);
           }
-          reader.readAsDataURL(this.files[0]);      
-         }); 
+          reader.readAsDataURL(this.files[0]);
+         });
       });
-       
+
       </script>
 
 
@@ -267,14 +273,14 @@
             if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) this.value = new_value;
             if (event.type == "blur" && this.value.length < 5)  this.value = ""
         }
-    
+
         input.addEventListener("input", mask, false);
         input.addEventListener("focus", mask, false);
         input.addEventListener("blur", mask, false);
         input.addEventListener("keydown", mask, false)
-    
+
       });
-    
+
     });
     </script>
     @endpush

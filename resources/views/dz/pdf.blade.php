@@ -8,8 +8,8 @@
     <style>
         @page { margin:0px; }
         body {
-            background: url("{{ asset('public/img/bg.png')}}"); 
-            background-size: 100% auto; 
+            background: url("{{ asset('public/img/bg.png')}}");
+            background-size: 100% auto;
             background-repeat: no-repeat;
             padding: 30px 30px 30px 80px;
             margin: 0
@@ -30,8 +30,8 @@
     <style>
         @page { margin:0px; }
         body {
-            background: url("{{ asset('public/img/bg-g.png')}}"); 
-            background-size: 100% auto; 
+            background: url("{{ asset('public/img/bg-g.png')}}");
+            background-size: 100% auto;
             background-repeat: no-repeat;
             padding: 30px 30px 30px 80px;
             margin: 0
@@ -81,7 +81,7 @@
 </head>
 @if($type_doc == "СОЗДАТЬ ДЗ ПЕРЕВОЗЧИК")
 <body>
-    
+
     @if ($partner == 0)
     <table class="table" border="0" style="border: none;">
         <tr>
@@ -98,7 +98,7 @@
                 </div>
             </td>
         </tr>
-    </table> 
+    </table>
     @else
     <p style="font-weight: bold; font-size: 10px; text-align: center">Договор-заявка от {{ \Carbon\Carbon::parse($dz["date"])->format('d.m.Y')}} <br> на перевозку и транспортно-экспедиционное обслуживание грузов по территории РФ</p>
     @endif
@@ -121,7 +121,7 @@
     </p>
 
     <p style="font-weight: bold; font-size: 11px; text-align: center">2. Условия перевозки.</p>
-  
+
     <table class="table table-bordered">
         <tr>
             <td style="font-size: 9px; width: 40%; padding-top:0; padding-bottom: 0">2.1. Тип (тент, откр., рефр-ор), грузоподъемность, размер кузова:</td>
@@ -132,10 +132,10 @@
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0">2.2. Дата и время загрузки:</td>
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0"  colspan="2">
             {{ \Carbon\Carbon::parse($dz["date_zagruzki"])->format('d.m.Y')}}
-            @if(!empty($dz["date_zagruzki_time_start"])) 
+            @if(!empty($dz["date_zagruzki_time_start"]))
             {{ $dz["date_zagruzki_time_start"] }}
             @endif
-            @if(!empty($dz["date_zagruzki_time_end"])) 
+            @if(!empty($dz["date_zagruzki_time_end"]))
             - {{ $dz["date_zagruzki_time_end"] }}
             @endif
         </td>
@@ -180,10 +180,10 @@
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0">2.7. Дата доставки:</td>
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0"  colspan="2">
             {{ \Carbon\Carbon::parse($dz["date_vigruzki"])->format('d.m.Y')}}
-            @if(!empty($dz["date_razgruzki_time_start"])) 
+            @if(!empty($dz["date_razgruzki_time_start"]))
             {{ $dz["date_razgruzki_time_start"] }}
             @endif
-            @if(!empty($dz["date_razgruzki_time_end"])) 
+            @if(!empty($dz["date_razgruzki_time_end"]))
             - {{ $dz["date_razgruzki_time_end"] }}
             @endif
         </td>
@@ -198,10 +198,12 @@
         </tr>
         <tr>
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0">2.11. Стоимость услуг и форма оплаты: </td>
-            <td style="font-size: 9px; padding-top:0; padding-bottom: 0" colspan="2">{{ $dz["oplata_perevozchik"] }} руб. 
+            <td style="font-size: 9px; padding-top:0; padding-bottom: 0" colspan="2">{{ $dz["oplata_perevozchik"] }} руб.
                 @if($dz["forma_oplata_company"] == "С НДС")
                 {{ $dz["forma_oplata_company"] }}
                 Выставить счет на {{ $dz["cshet_company"] }}
+                @elseif($dz["forma_oplata_company"] == "На карту")
+                    {{ $dz["forma_oplata_company"] }} - {{$voditel->karta_sber}}
                 @else
                 {{ $dz["forma_oplata_company"] }}
                 @endif
@@ -218,15 +220,15 @@
             @if(!empty($voditel->vod_pas))
                 {{ $voditel->vod_pas }}
             @else
-            {{ $voditel->perevozchik_voditel }}, 
-            {{ $voditel->perevozchik_tel }}, 
+            {{ $voditel->perevozchik_voditel }},
+            {{ $voditel->perevozchik_tel }},
             {{ $voditel->pasport_voditel }}
             @endif
             </td>
         </tr>
         <tr>
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0">2.13. Документы, необходимые для отправки/оплаты, и обязательные примечания.</td>
-            <td style="font-size: 9px; padding-top:0; padding-bottom: 0" colspan="2"> 
+            <td style="font-size: 9px; padding-top:0; padding-bottom: 0" colspan="2">
                 @if(empty($dz["document"]) && !empty($dz["document_fact"]))
                     {{ $dz["document_fact"] }}
                 @else
@@ -310,7 +312,7 @@
      4.7.  За сверхнормативный простой, определяемый на основании пункта 2.10. настоящего Договора, за каждые начатые сутки Заказчик уплачивает штраф в размере 1000 руб. Выходные и праздничные дни включаются в простой при условии, что являются рабочими для грузоотправителя. Предъявление груза для перевозки не будет считаться опозданием (срывом), если Заказчик предъявит груз в течение 5-7 рабочих дней с даты подачи автотранспортного средства. При этом Исполнителю необходимо предоставить оригиналы документов, подтверждающих факт простоя – простойный лист, ТТН/ТН или путевой лист с соответствующими отметками.
      </p>
      <p style="font-size: 9px; text-align: justify">
-     4.8. До предъявления иска, связанного с нарушением условий настоящего Договора, обязательно предъявление претензии в письменной форме в порядке, предусмотренным законодательством РФ. Ответ на претензию должен быть не более 10  (десяти) календарных дней с момента вручения претензии. 
+     4.8. До предъявления иска, связанного с нарушением условий настоящего Договора, обязательно предъявление претензии в письменной форме в порядке, предусмотренным законодательством РФ. Ответ на претензию должен быть не более 10  (десяти) календарных дней с момента вручения претензии.
      </p>
      <p style="font-size: 9px; text-align: justify">
      4.9. В случае нарушения условий договора стороны несут ответственность согласно действующему законодательству РФ.
@@ -347,7 +349,7 @@
         <tr>
             <td style="font-size: 9px;border: 1px solid #dee2e6; border-bottom:0px solid #fff !important; padding-top:0; padding-bottom: 0">
                 {!! str_replace(array("\n"), '<br>', $companies->rekvizity) !!}
-            </td>    
+            </td>
             <td style="padding: 0; border-right: 1px solid #dee2e6">
                 <table class="table table-bordered">
                     <tr>
@@ -362,7 +364,7 @@
 
                 <div style="padding: 0.5rem 0.5rem; font-size: 9px">
                     {!! str_replace(array("\n"), '<br>', $voditel->contacts) !!}
-                </div> 
+                </div>
             </td>
         </tr>
 
@@ -370,9 +372,9 @@
             <td style="font-size: 9px; padding-top: 120px;border-top:0px solid #fff !important; text-align:center; border: 1px solid #dee2e6">
             <div style="position: relative">
                 @if (!empty($companies->stamp) && $dz["indikator_sb"] != 0)
-                    <img src="{{ asset('public/img/'.$companies->stamp)}}" style="position: absolute; top:-95px; left: 40px; width: 150px"> <span>_________________/{{ $companies->name_director_2 }}</span> 
+                    <img src="{{ asset('public/img/'.$companies->stamp)}}" style="position: absolute; top:-95px; left: 40px; width: 150px"> <span>_________________/{{ $companies->name_director_2 }}</span>
                 @else
-                <span>_________________/{{ $companies->name_director_2 }}</span> 
+                <span>_________________/{{ $companies->name_director_2 }}</span>
                 @endif
             </div>
         </td>
@@ -387,7 +389,7 @@
 </body>
 @elseif ($type_doc == "СОЗДАТЬ ДЗ КЛИЕНТ")
 <body>
-    
+
     @if ($partner == 0)
     <table class="table" border="0" style="border: none;">
         <tr>
@@ -404,7 +406,7 @@
                 </div>
             </td>
         </tr>
-    </table> 
+    </table>
     @else
     <p style="font-weight: bold; font-size: 10px; text-align: center">Договор-заявка от {{ \Carbon\Carbon::parse($dz["date"])->format('d.m.Y')}}</p>
     @endif
@@ -414,7 +416,7 @@
     основании Устава/свидетельства, с другой стороны, совместно именуемые «Стороны» а по отдельности «Сторона», заключили
     настоящий Договор о нижеследующем:
     </p>
-  
+
     <p></p>
     <table class="table table-bordered">
         <tr>
@@ -426,10 +428,10 @@
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0">Дата и время загрузки:</td>
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0">
             {{ \Carbon\Carbon::parse($dz["date_zagruzki"])->format('d.m.Y')}}
-            @if(!empty($dz["date_zagruzki_time_start"])) 
+            @if(!empty($dz["date_zagruzki_time_start"]))
             {{ $dz["date_zagruzki_time_start"] }}
             @endif
-            @if(!empty($dz["date_zagruzki_time_end"])) 
+            @if(!empty($dz["date_zagruzki_time_end"]))
             - {{ $dz["date_zagruzki_time_end"] }}
             @endif
         </td>
@@ -474,10 +476,10 @@
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0">Дата доставки:</td>
             <td style="font-size: 9px; padding-top:0; padding-bottom: 0">
             {{ \Carbon\Carbon::parse($dz["date_vigruzki"])->format('d.m.Y')}}
-            @if(!empty($dz["date_razgruzki_time_start"])) 
+            @if(!empty($dz["date_razgruzki_time_start"]))
             {{ $dz["date_razgruzki_time_start"] }}
             @endif
-            @if(!empty($dz["date_razgruzki_time_end"])) 
+            @if(!empty($dz["date_razgruzki_time_end"]))
             - {{ $dz["date_razgruzki_time_end"] }}
             @endif
         </td>
@@ -511,8 +513,8 @@
             @if(!empty($voditel->vod_pas))
                 {{ $voditel->vod_pas }}
             @else
-            {{ $voditel->perevozchik_voditel }}, 
-            {{ $voditel->perevozchik_tel }}, 
+            {{ $voditel->perevozchik_voditel }},
+            {{ $voditel->perevozchik_tel }},
             {{ $voditel->pasport_voditel }}
             @endif
             </td>
@@ -538,10 +540,10 @@
         <tr>
             <td style="font-size: 9px;border: 1px solid #dee2e6; border-bottom:0px solid #fff !important; padding-top:0; padding-bottom: 0">
                 {!! str_replace(array("\n"), '<br>', $client->rekvizity) !!}
-            </td>    
+            </td>
             <td style="font-size: 9px;border: 1px solid #dee2e6; border-bottom:0px solid #fff !important; padding-top:0; padding-bottom: 0">
                 {!! str_replace(array("\n"), '<br>', $companies->rekvizity) !!}
-            </td> 
+            </td>
         </tr>
 
         <tr>
@@ -549,9 +551,9 @@
             <td style="font-size: 9px; padding-top: 120px;border-top:0px solid #fff !important; text-align:center; border: 1px solid #dee2e6">
                 <div style="position: relative">
                     @if (!empty($companies->stamp) && $dz["indikator_sb"] != 0)
-                        <img src="{{ asset('public/img/'.$companies->stamp)}}" style="position: absolute; top:-95px; left: 40px; width: 150px"> <span>_________________/{{ $companies->name_director_2 }}</span> 
+                        <img src="{{ asset('public/img/'.$companies->stamp)}}" style="position: absolute; top:-95px; left: 40px; width: 150px"> <span>_________________/{{ $companies->name_director_2 }}</span>
                     @else
-                    <span>_________________/{{ $companies->name_director_2 }}</span> 
+                    <span>_________________/{{ $companies->name_director_2 }}</span>
                     @endif
                 </div>
             </td>

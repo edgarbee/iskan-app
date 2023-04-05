@@ -29,7 +29,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::group(['prefix' => 'dz', 'middleware' => ['auth', 'seller']], function () {
     Route::get('/', [App\Http\Controllers\MainController::class, 'createDz'])->name('index');
-    
+
+    Route::get('/history/{dz_id}', [App\Http\Controllers\MainController::class, 'historyDz'])->name('historyDz');
+
     Route::post('/search-client', [App\Http\Controllers\MainController::class, 'searchClient'])->name('searchClient');
     Route::post('/search-perevozchik', [App\Http\Controllers\MainController::class, 'searchPerevozchik'])->name('searchPerevozchik');
     Route::post('/search-company', [App\Http\Controllers\MainController::class, 'searchCompany'])->name('searchCompany');

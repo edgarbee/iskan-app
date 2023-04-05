@@ -130,7 +130,7 @@
     <div class="container-fluid">
         <div class="row">
             @include("admin.includes.sidebar")
-            
+
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="table-responsive mt-5">
                     @if (\Session::has('success'))
@@ -138,6 +138,12 @@
                             {!! \Session::get('success') !!}
                         </div>
                     @endif
+
+                    @error('email')
+                        <div class="alert alert-danger mb-4">
+                            {{ $message }}
+                        </div>
+                    @enderror
                     <div class="d-flex align-items-center flex-wrap mb-3">
                         <h1 class="h2">Пользователи</h1>
                         <button type="button" class="btn btn-success btn-sm mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-person-plus"></i> Добавить нового пользователя</button>
@@ -191,20 +197,20 @@
             <div class="modal-body">
                 <div class="mb-3">
                 <label class="form-label">Имя</label>
-                    <input type="text" class="form-control form-control-sm" name="name" required>
-                </div> 
+                    <input type="text" class="form-control form-control-sm" name="name" required value="{{ old('name') }}">
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Телефон</label>
-                    <input type="tel" class="form-control form-control-sm tel" name="tel" required>
-                </div> 
+                    <input type="tel" class="form-control form-control-sm tel" name="tel" required value="{{ old('tel') }}">
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control form-control-sm" name="email" required>
-                </div> 
+                    <input type="email" class="form-control form-control-sm" name="email" required value="{{ old('email') }}">
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Пароль</label>
-                    <input type="text" class="form-control form-control-sm" name="password" required>
-                </div> 
+                    <input type="text" class="form-control form-control-sm" name="password" required value="{{ old('password') }}">
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Роль</label>
                     <select class="form-select form-select-sm" name="role" required>
@@ -226,12 +232,12 @@
                         <option value="C">C</option>
                         <option value="СБ">СБ</option>
                     </select>
-                </div>        
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Добавить пользователя</button>
             </div>
-            </form> 
+            </form>
         </div>
         </div>
     </div>
@@ -284,14 +290,14 @@
             if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) this.value = new_value;
             if (event.type == "blur" && this.value.length < 5)  this.value = ""
         }
-    
+
         input.addEventListener("input", mask, false);
         input.addEventListener("focus", mask, false);
         input.addEventListener("blur", mask, false);
         input.addEventListener("keydown", mask, false)
-    
+
       });
-    
+
     });
     </script>
     @endpush

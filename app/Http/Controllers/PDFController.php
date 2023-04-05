@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use PDF;
 use App\Models\Carrier;
 use App\Models\Clients;
+use App\Models\History;
 
 class PDFController extends Controller
 {
@@ -28,7 +29,7 @@ class PDFController extends Controller
         }
 
 
-        $voditel = Carrier::select('perevozchik_voditel','perevozchik_tel','pasport_voditel','vod_pas', 'name_director', 'code_ATI', 'perevozchik_email', 'contacts')
+        $voditel = Carrier::select('perevozchik_voditel','perevozchik_tel','pasport_voditel','vod_pas', 'name_director', 'code_ATI', 'perevozchik_email', 'contacts', 'karta_sber')
         ->where('perevozchik_voditel', '=', str_replace(array("\r\n", "\r", "\n"), '', $dz["perevozchik_voditel"]))
         ->first();
 
@@ -36,8 +37,8 @@ class PDFController extends Controller
         ->where('client_name', '=', str_replace(array("\r\n", "\r", "\n"), '', $dz["client_name"]))
         ->first();
 
-        if (isset($dz)) { 
-    
+        if (isset($dz)) {
+
             $data = [
                 'dz' => $dz,
                 'companies' => $companies,
@@ -45,10 +46,17 @@ class PDFController extends Controller
                 'partner' => $partner,
                 'type_doc' => $request->input('type_doc'),
                 'client' => $client,
-            ]; 
-                
+            ];
+
+            $history = new History();
+            $history->title = $dz["nomer"];
+            $history->dz_id = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+            $history->logist_id = \Auth::user()->id;
+            $history->data = json_encode($request->all(), JSON_UNESCAPED_UNICODE);
+            $history->save();
+
             $pdf = PDF::loadView('dz.pdf', $data);
-            
+
             if ($partner == 0 && $request->input('type_doc') != "СОЗДАТЬ ДОВЕРЕННОСТЬ") {
                 return $pdf->download('Dogovor_zayavka_№'.$dz["nomer"].'_ot_'.\Carbon\Carbon::parse($dz["date"])->format('d/m/Y').'.pdf');
             } elseif($partner == 1 && $request->input('type_doc') != "СОЗДАТЬ ДОВЕРЕННОСТЬ") {
@@ -58,7 +66,7 @@ class PDFController extends Controller
             } elseif($partner == 1 && $request->input('type_doc') == "СОЗДАТЬ ДОВЕРЕННОСТЬ") {
                 return $pdf->download('Doverennost_ot_'.\Carbon\Carbon::parse($dz["date"])->format('d/m/Y').'.pdf');
             }
-           
+
         }
     }
 
@@ -85,8 +93,8 @@ class PDFController extends Controller
             $data = [
                 'sb' => $sb,
                 'sb_status' => $request->input('sb_status'),
-            ]; 
-                
+            ];
+
             $pdf = PDF::loadView('sb.pdf', $data);
 
             return $pdf->download('Proverka_SB_№'.$sb["nomer"].'_ot_'.\Carbon\Carbon::parse($sb["date"])->format('d/m/Y').'.pdf');

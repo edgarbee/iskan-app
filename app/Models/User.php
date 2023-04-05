@@ -55,4 +55,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getHistory() {
+        return $this->hasMany(History::class, 'logist_id', 'id');
+    }
 }

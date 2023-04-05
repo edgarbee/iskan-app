@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Clients;
 use App\Models\Zagruzka;
 use App\Models\Vigruzka;
+use App\Models\History;
 
 class MainController extends Controller
 {
@@ -20,6 +21,15 @@ class MainController extends Controller
         $clients = Clients::where('likvidnost', '=', 1)->get();
 
         return view('dz.dz', compact('companies', 'partner_companies', 'clients'));
+    }
+
+    public function historyDz($dz_id) {
+        $companies = DB::table('company')->get();
+        $clients = Clients::where('likvidnost', '=', 1)->get();
+        $partner_companies = DB::table('partners_company')->get();
+
+        $history = json_decode(History::where('dz_id', $dz_id)->first()->data);
+        return view('dz.history', compact('history', 'companies', 'partner_companies', 'clients'));
     }
 
     public function searchClient(Request $request) {
@@ -72,7 +82,7 @@ class MainController extends Controller
         $perevozchik_name = $request->input('perevozchik_name');
         $results = DB::table('perevozchiki')
         ->select('perevozchik_name', 'data_proverki', 'code_ATI',
-        DB::raw("GROUP_CONCAT(perevozchik_ts SEPARATOR '| ') as 'perevozchik_ts'"), 
+        DB::raw("GROUP_CONCAT(perevozchik_ts SEPARATOR '| ') as 'perevozchik_ts'"),
         DB::raw("GROUP_CONCAT(perevozchik_voditel SEPARATOR '| ') as 'perevozchik_voditel'"),
         DB::raw("GROUP_CONCAT(perevozchik_tel SEPARATOR '| ') as 'perevozchik_tel'"))
         ->groupBy('perevozchik_name')
@@ -134,7 +144,7 @@ class MainController extends Controller
         $perevozchik = $request->input('p');
 
         DB::table('perevozchiki')->insert([
-            'code_ATI' => $perevozchik["code_ATI"], 
+            'code_ATI' => $perevozchik["code_ATI"],
             'perevozchik_name' => $perevozchik["perevozchik_name"],
             'perevozchik_tel' => $perevozchik["perevozchik_tel"],
             'perevozchik_email' => $perevozchik["perevozchik_email"],
@@ -147,7 +157,7 @@ class MainController extends Controller
             'karta_sber' => $perevozchik["karta_sber"],
             'contacts' => $perevozchik["contacts"],
             'data_proverki' => '',
-            'logist' => Auth::user()->name, 
+            'logist' => Auth::user()->name,
             'vod_pas' => $perevozchik["perevozchik_voditel"].', '.$perevozchik["perevozchik_voditel_tel"].', '.$perevozchik["pasport_voditel"]
         ]);
     }
@@ -160,7 +170,7 @@ class MainController extends Controller
     public function logout()
     {
         Session::flush();
-        
+
         Auth::logout();
 
         return redirect('login');

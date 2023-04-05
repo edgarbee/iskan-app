@@ -91,7 +91,7 @@ class AdminController extends Controller
             $dopZagruzka->client_id = $request->input('client_id');
             $dopZagruzka->dop_address_zagruzki_contact = $request->input('dop_address_zagruzki_contact');
             $dopZagruzka->save();
-        }         
+        }
         else {
             $dopZagruzka = Zagruzka::find($request->input('dop_zagruzka_id'));
             $dopZagruzka->delete();
@@ -109,7 +109,7 @@ class AdminController extends Controller
             $dopZagruzka->client_id = $request->input('client_id');
             $dopZagruzka->dop_address_zagruzki_contact = $request->input('dop_address_zagruzki_contact');
             $dopZagruzka->save();
-        }         
+        }
         else {
             $dopZagruzka = Vigruzka::find($request->input('dop_zagruzka_id'));
             $dopZagruzka->delete();
@@ -272,6 +272,10 @@ class AdminController extends Controller
 
     public function usersEdit(Request $request) {
 
+        $validate = $request->validate([
+            'email' => 'required|string|email|unique:users,email,' .$request->input('id'),
+        ]);
+
         $user = User::find($request->input('id'));
         $user->name = $request->input('name');
         $user->tel = $request->input('tel');
@@ -289,6 +293,10 @@ class AdminController extends Controller
     }
 
     public function usersAdd(Request $request) {
+
+        $validate = $request->validate([
+            'email' => 'required|string|email|unique:users',
+        ]);
 
         $user = new User();
         $user->name = $request->input('name');
@@ -313,9 +321,9 @@ class AdminController extends Controller
 
     public function excelClients() {
 
-        header("Content-Type: application/xls");    
-        header("Content-Disposition: attachment; filename=Клиенты.xls");  
-        header("Pragma: no-cache"); 
+        header("Content-Type: application/xls");
+        header("Content-Disposition: attachment; filename=Клиенты.xls");
+        header("Pragma: no-cache");
         header("Expires: 0");
         $output = '';
 
@@ -363,14 +371,14 @@ class AdminController extends Controller
         $output .="</table></div>";
 
         echo $output;
-        
+
     }
 
     public function excelPerevozchik() {
 
-        header("Content-Type: application/xls");    
-        header("Content-Disposition: attachment; filename=Перевозчики.xls");  
-        header("Pragma: no-cache"); 
+        header("Content-Type: application/xls");
+        header("Content-Disposition: attachment; filename=Перевозчики.xls");
+        header("Pragma: no-cache");
         header("Expires: 0");
         $output = '';
 
@@ -421,7 +429,7 @@ class AdminController extends Controller
         $output .="</table></div>";
 
         echo $output;
-        
+
     }
 
 }

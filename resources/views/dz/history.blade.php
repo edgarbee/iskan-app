@@ -64,13 +64,13 @@
                         </div>
                         <div class="col-md-3">
                             <div class="mb-1">
-                                <input type="text" class="form-control form-control-sm" name="dz[nomer]" required placeholder="Договор заявка №">
+                                <input type="text" class="form-control form-control-sm" name="dz[nomer]" required placeholder="Договор заявка №" value="{{ $history->dz->nomer }}">
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="mb-1">
-                                <input type="date" name="dz[date]"  class="form-control form-control-sm" required placeholder="Дата">
+                                <input type="date" name="dz[date]"  class="form-control form-control-sm" required placeholder="Дата" value="{{ $history->dz->date }}">
                             </div>
                         </div>
 
@@ -79,7 +79,11 @@
                                 <select class="form-select form-select-sm" name="dz[company_name]" required placeholder="Наша компания">
                                     <option value="">Выберите нашу компанию</option>
                                     @foreach ($companies as $company)
-                                        <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+                                        @if($history->dz->company_name == $company->company_name)
+                                            <option selected value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+                                        @else
+                                            <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -88,7 +92,7 @@
                         <div class="col-md-3">
                             <div class="search_box">
                                 <div class="mb-1">
-                                    <input type="text" class="form-control form-control-sm" name="dz[client_name]" id="client_name" required placeholder="Клиент">
+                                    <input type="text" class="form-control form-control-sm" name="dz[client_name]" id="client_name" required placeholder="Клиент" value="{{ $history->dz->client_name }}">
                                 </div>
                                 <div id="search_box-result-client"></div>
                             </div>
@@ -107,7 +111,7 @@
                         <div class="col-md-3">
                             <div class="search_box">
                                 <div class="mb-1">
-                                    <input type="text" class="form-control form-control-sm" name="dz[perevozchik_name]" id="perevozchik_name" required placeholder="Исполнитель">
+                                    <input type="text" class="form-control form-control-sm" name="dz[perevozchik_name]" id="perevozchik_name" required placeholder="Исполнитель" value="{{ $history->dz->perevozchik_name }}">
                                 </div>
                                 <div id="search_box-result-perevozchik"></div>
                             </div>
@@ -117,30 +121,37 @@
                             <div class="mb-1">
                                 <select class="form-select form-select-sm" name="dz[perevozchik_ts]" id="perevozchik_ts" required placeholder="Транспорт">
                                     <option value="" selected>Выберите транспорт</option>
+                                    <option value="{{ $history->dz->perevozchik_ts }}" selected>{{ $history->dz->perevozchik_ts }}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="mb-1">
-                                <select class="form-select form-select-sm" name="dz[perevozchik_voditel]" id="perevozchik_voditel" required>
+                                <select class="form-select form-select-sm" name="dz[perevozchik_voditel]" id="perevozchik_voditel" required value="{{ $history->dz->perevozchik_voditel }}">
                                     <option value="" selected>Выберите водителя</option>
+                                    <option value="{{ $history->dz->perevozchik_voditel }}" selected>{{ $history->dz->perevozchik_voditel }}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="mb-1">
-                                <select class="form-select form-select-sm" name="dz[perevozchik_tel]" id="perevozchik_tel" required>
+                                <select class="form-select form-select-sm" name="dz[perevozchik_tel]" id="perevozchik_tel" required value="{{ $history->dz->perevozchik_tel }}">
                                     <option value="" selected>Выберите контакт водителя</option>
+                                    <option value="{{ $history->dz->perevozchik_tel }}" selected>{{ $history->dz->perevozchik_tel }}</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="col-md-12">
-                            <div class="alert mt-2 mb-0" role="alert" id="indikator_sb" style="display: none;"></div>
+                            @if($history->dz->indikator_sb == 1)
+                                <div class="alert mt-2 mb-0 alert-success" role="alert" id="indikator_sb" style="">Проверка СБ не требуется</div>
+                            @else
+                                <div class="alert mt-2 mb-0 alert-warning" role="alert" id="indikator_sb" style="">Требуется проверка СБ</div>
+                            @endif
 
-                            <input type="hidden" name="dz[indikator_sb]" value="0" id="indikator_sb_hidden">
+                            <input type="hidden" name="dz[indikator_sb]" value="{{ $history->dz->indikator_sb }}" id="indikator_sb_hidden">
                         </div>
                     </div>
 
@@ -152,37 +163,31 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-1">
-                                <input type="text" class="form-control form-control-sm" name="dz[gruz_poym]" id="gruz_poym" placeholder="Введите груз" required>
+                                <input type="text" class="form-control form-control-sm" name="dz[gruz_poym]" id="gruz_poym" placeholder="Введите груз" required value="{{ $history->dz->gruz_poym }}">
                                 <input type="hidden" class="form-control form-control-sm" name="dz[gruz_fact]" id="gruz_fact">
                             </div>
                         </div>
 
+                        @php
+                        $upakovki = ["Навалом", "Коробки", "Россыпью", "Паллеты", "Пачки", "Мешки", "Биг-бэги", "Ящики", "Листы", "Бочки", "Канистры", "Рулоны", "Пирамида", "Еврокубы", "Катушки", "Барабаны"]
+                        @endphp
                         <div class="col-md-2">
                             <div class="">
                                 <select class="form-select form-select-sm" name="dz[upakovka]" id="upakovka" placeholder="Упаковка" required>
-                                    <option value="" selected>Выберите упаковку</option>
-                                    <option value="Навалом">Навалом</option>
-                                    <option value="Коробки">Коробки</option>
-                                    <option value="Россыпью">Россыпью </option>
-                                    <option value="Паллеты">Паллеты</option>
-                                    <option value="Пачки">Пачки</option>
-                                    <option value="Мешки">Мешки</option>
-                                    <option value="Биг-бэги">Биг-бэги</option>
-                                    <option value="Ящики">Ящики</option>
-                                    <option value="Листы">Листы</option>
-                                    <option value="Бочки">Бочки</option>
-                                    <option value="Канистры">Канистры</option>
-                                    <option value="Рулоны">Рулоны</option>
-                                    <option value="Пирамида">Пирамида</option>
-                                    <option value="Еврокубы">Еврокубы</option>
-                                    <option value="Катушки">Катушки</option>
-                                    <option value="Барабаны">Барабаны</option>
+                                    <option value="">Выберите упаковку</option>
+                                    @foreach($upakovki as $upakovka)
+                                        @if($history->dz->upakovka == $upakovka)
+                                            <option value="{{ $upakovka }}" selected>{{ $upakovka }}</option>
+                                        @else
+                                            <option value="{{ $upakovka }}">{{ $upakovka }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                             <a data-bs-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="false" aria-controls="collapseExample4" style="font-size: 10px; font-weight: 700">Указать кол-во</a>
                             <div class="collapse" id="collapseExample4">
                                 <div class="col-md-12">
-                                    <input type="text" name="dz[upakovka_kolvo]" id="upakovka_kolvo"  class="form-control form-control-sm" placeholder="Введите кол-во" style="font-size: 10px;">
+                                    <input type="text" value="{{ $history->dz->upakovka_kolvo }}" name="dz[upakovka_kolvo]" id="upakovka_kolvo"  class="form-control form-control-sm" placeholder="Введите кол-во" style="font-size: 10px;">
                                 </div>
                             </div>
                         </div>
@@ -190,7 +195,7 @@
                         <div class="col-md-2">
                             <div class="mb-1">
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control form-control-sm" name="dz[ves]" id="ves" placeholder="Вес">
+                                    <input type="text" class="form-control form-control-sm" name="dz[ves]" id="ves" placeholder="Вес" value="{{ $history->dz->ves }}">
                                     <span class="input-group-text">т.</span>
                                 </div>
                             </div>
@@ -199,7 +204,7 @@
                         <div class="col-md-2">
                             <div class="mb-1">
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control form-control-sm" name="dz[objem]" id="objem" placeholder="Объем">
+                                    <input type="text" class="form-control form-control-sm" name="dz[objem]" id="objem" placeholder="Объем" value="{{ $history->dz->objem }}">
                                     <span class="input-group-text">м<sup>3</sup></span>
                                 </div>
                             </div>
@@ -211,15 +216,15 @@
                         </div>
                         <div class="col-md-2">
                             <div class="mb-1">
-                                <input type="date" name="dz[date_zagruzki]" id="date_zagruzki"  class="form-control form-control-sm" placeholder="Дата загрузки" required>
+                                <input type="date" name="dz[date_zagruzki]" id="date_zagruzki"  class="form-control form-control-sm" placeholder="Дата загрузки" required value="{{ $history->dz->date_zagruzki }}">
                                 <a data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1" style="font-size: 10px; font-weight: 700">Добавить время</a>
                                 <div class="collapse" id="collapseExample1">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <input type="text" name="dz[date_zagruzki_time_start]" id="date_zagruzki_time_start"  class="form-control form-control-sm" placeholder="C" style="font-size: 10px;">
+                                            <input type="text" name="dz[date_zagruzki_time_start]" id="date_zagruzki_time_start"  class="form-control form-control-sm" placeholder="C" style="font-size: 10px;" value="{{ $history->dz->date_zagruzki_time_start }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="dz[date_zagruzki_time_end]" id="date_zagruzki_time_end"  class="form-control form-control-sm" placeholder="До" style="font-size: 10px;">
+                                            <input type="text" name="dz[date_zagruzki_time_end]" id="date_zagruzki_time_end"  class="form-control form-control-sm" placeholder="До" style="font-size: 10px;" value="{{ $history->dz->date_zagruzki_time_end }}">
                                         </div>
                                     </div>
                                 </div>
@@ -228,25 +233,27 @@
                         <div class="col-md-4">
                             <div class="mb-1">
                                 <select class="form-select form-select-sm" name="dz[address_zagruzki_contact]" id="address_zagruzki_contact" required>
-                                    <option value="" selected>Выберите адрес загрузки + контактное лицо</option>
+                                    <option value="">Выберите адрес загрузки + контактное лицо</option>
+                                    <option value="{{ $history->dz->address_zagruzki_contact }}" selected>{{ $history->dz->address_zagruzki_contact }}</option>
                                 </select>
                             </div>
                         </div>
+
+                        @php
+                        $type_zagruzki = ["верхняя", "боковая", "задняя", "с полной растентовкой", "со снятием стоек", "без ворот", "гидроборт", "аппарели", "с обрешёткой", "с бортами", "боковая с 2-х сторон"]
+                        @endphp
                         <div class="col-md-4">
                             <div class="mb-1">
                                 <select class="form-select form-select-sm" name="dz[type_zagruzki][]" id="type_zagruzki" required multiple data-placeholder="Выберите способ загрузки">
-                                    <option value="верхняя">верхняя</option>
-                                    <option value="боковая">боковая</option>
-                                    <option value="задняя">задняя</option>
-                                    <option value="с полной растентовкой">с полной растентовкой</option>
-                                    <option value="со снятием стоек">со снятием стоек</option>
-                                    <option value="без ворот">без ворот</option>
-                                    <option value="гидроборт">гидроборт</option>
-                                    <option value="аппарели">аппарели</option>
-                                    <option value="с обрешёткой">с обрешёткой</option>
-                                    <option value="с бортами">с бортами</option>
-                                    <option value="боковая с 2-х сторон">боковая с 2-х сторон</option>
-
+                                    @foreach($type_zagruzki as $type_zagruzka)
+                                        @foreach($history->dz->type_zagruzki as $zagruzka)
+                                            @if($zagruzka == $type_zagruzka)
+                                                <option value="{{ $type_zagruzka }}" selected>{{ $type_zagruzka }}</option>
+                                            @else
+                                                <option value="{{ $type_zagruzka }}">{{ $type_zagruzka }}</option>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -257,15 +264,15 @@
                         </div>
                         <div class="col-md-2">
                             <div class="mb-1">
-                                <input type="date" name="dz[date_vigruzki]" id="date_razgruzki"  class="form-control form-control-sm" placeholder="Дата разгрузки" required>
+                                <input type="date" name="dz[date_vigruzki]" id="date_razgruzki"  class="form-control form-control-sm" placeholder="Дата разгрузки" required value="{{ $history->dz->date_vigruzki }}">
                                 <a data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2" style="font-size: 10px; font-weight: 700">Добавить время</a>
                                 <div class="collapse" id="collapseExample2">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <input type="text" name="dz[date_razgruzki_time_start]" id="date_razgruzki_time_start"  class="form-control form-control-sm" placeholder="C" style="font-size: 10px;">
+                                            <input type="text" name="dz[date_razgruzki_time_start]" id="date_razgruzki_time_start"  class="form-control form-control-sm" placeholder="C" style="font-size: 10px;" value="{{ $history->dz->date_razgruzki_time_start }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <input type="text" name="dz[date_razgruzki_time_end]" id="date_razgruzki_time_end"  class="form-control form-control-sm" placeholder="До" style="font-size: 10px;">
+                                            <input type="text" name="dz[date_razgruzki_time_end]" id="date_razgruzki_time_end"  class="form-control form-control-sm" placeholder="До" style="font-size: 10px;" value="{{ $history->dz->date_razgruzki_time_end }}">
                                         </div>
                                     </div>
                                 </div>
@@ -274,29 +281,31 @@
                         <div class="col-md-4">
                             <div class="mb-1">
                                 <select class="form-select form-select-sm" name="dz[address_vigruzki_contact]" id="address_vigruzki_contact" required>
-                                    <option value="" selected>Выберите адрес разгрузки + контактное лицо</option>
+                                    <option value="">Выберите адрес разгрузки + контактное лицо</option>
+                                    <option value="{{ $history->dz->address_vigruzki_contact }}" selected>{{ $history->dz->address_vigruzki_contact }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-1">
                                 <select class="form-select form-select-sm" name="dz[type_razgruzki][]" id="type_razgruzki" required multiple data-placeholder="Выберите способ разгрузки">
-                                    <option value="верхняя">верхняя</option>
-                                    <option value="боковая">боковая</option>
-                                    <option value="задняя">задняя</option>
-                                    <option value="с полной растентовкой">с полной растентовкой</option>
-                                    <option value="со снятием стоек">со снятием стоек</option>
-                                    <option value="без ворот">без ворот</option>
-                                    <option value="гидроборт">гидроборт</option>
-                                    <option value="аппарели">аппарели</option>
-                                    <option value="с обрешёткой">с обрешёткой</option>
-                                    <option value="с бортами">с бортами</option>
-                                    <option value="боковая с 2-х сторон">боковая с 2-х сторон</option>
-
+                                    @foreach($type_zagruzki as $type_zagruzka)
+                                        @foreach($history->dz->type_razgruzki as $razgruzka)
+                                            @if($razgruzka == $type_zagruzka)
+                                                <option value="{{ $type_zagruzka }}" selected>{{ $type_zagruzka }}</option>
+                                            @else
+                                                <option value="{{ $type_zagruzka }}">{{ $type_zagruzka }}</option>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
+
+                    @php
+                    $client_transports = ["закрытый", "тентованный", "контейнер", "фургон", "цельнометалл", "изотермический", "рефрижератор", "все открытые", "бортовой", "самосвал", "низкорамный", "трал", "низкорам.платформа", "балковоз (негабарит)", "контейнеровоз", "зерновоз", "кран", "манипулятор", "цистерна", "мега фура", "муковоз"]
+                    @endphp
                     <div class="row  mt-2">
                         <div class="col-md-2" style="font-size: 12px; font-weight: 700">
                             Доп. информация
@@ -304,34 +313,21 @@
                         <div class="col-md-5">
                             <div class="mb-1">
                                 <select class="form-select form-select-sm" name="dz[client_transport][]" id="client_transport" required multiple data-placeholder="Тип требуемого транспорта">
-                                    <option value="закрытый">закрытый</option>
-                                    <option value="тентованный">тентованный</option>
-                                    <option value="контейнер">контейнер</option>
-                                    <option value="фургон">фургон</option>
-                                    <option value="цельнометалл">цельнометалл</option>
-                                    <option value="изотермический">изотермический</option>
-                                    <option value="рефрижератор">рефрижератор</option>
-                                    <option value="все открытые">все открытые</option>
-                                    <option value="бортовой">бортовой</option>
-                                    <option value="самосвал">самосвал</option>
-                                    <option value="низкорамный">низкорамный</option>
-                                    <option value="трал">трал</option>
-                                    <option value="низкорам.платформа">низкорам.платформа</option>
-                                    <option value="балковоз (негабарит)">балковоз (негабарит)</option>
-                                    <option value="контейнеровоз">контейнеровоз</option>
-                                    <option value="зерновоз">зерновоз</option>
-                                    <option value="кран">кран</option>
-                                    <option value="манипулятор">манипулятор</option>
-                                    <option value="цистерна">цистерна</option>
-                                    <option value="мега фура">мега фура</option>
-                                    <option value="муковоз">муковоз</option>
-
+                                    @foreach($client_transports as $client_transport)
+                                        @foreach($history->dz->client_transport as $transport)
+                                            @if($transport == $client_transport)
+                                                <option value="{{ $client_transport }}" selected>{{ $client_transport }}</option>
+                                            @else
+                                                <option value="{{ $client_transport }}">{{ $client_transport }}</option>
+                                            @endif
+                                        @endforeach
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="mb-1">
-                                <input type="text" class="form-control form-control-sm" name="dz[dop_trebovaniy]" id="dop_trebovaniy" placeholder="Доп. требования к перевозчику">
+                                <input type="text" class="form-control form-control-sm" name="dz[dop_trebovaniy]" id="dop_trebovaniy" placeholder="Доп. требования к перевозчику" value="{{ $history->dz->dop_trebovaniy }}">
                             </div>
                         </div>
                     </div>
@@ -341,18 +337,22 @@
                         </div>
                         <div class="col-md-5">
                             <div class="mb-1">
-                                <input type="text" class="form-control form-control-sm" name="dz[document]" id="document" placeholder="Необходимые документы для оплаты" required>
+                                <input type="text" class="form-control form-control-sm" name="dz[document]" id="document" placeholder="Необходимые документы для оплаты" required value="{{ $history->dz->document }}">
                                 <input type="hidden" class="form-control form-control-sm" name="dz[document_fact]" id="document_fact">
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="mb-1">
-                                <input type="text" class="form-control form-control-sm" name="dz[dop_uslovia]" id="dop_uslovia" placeholder="Доп. условия к ДЗ из основного договора">
+                                <input type="text" class="form-control form-control-sm" name="dz[dop_uslovia]" id="dop_uslovia" placeholder="Доп. условия к ДЗ из основного договора" value="{{ $history->dz->dop_uslovia }}">
                             </div>
                         </div>
 
                     </div>
                     <hr>
+
+                    @php
+                        $oplati = ["С НДС", "Без НДС", "На карту", "Нет"]
+                    @endphp
 
                     <div class="row">
                         <div class="col-md-12">
@@ -365,45 +365,48 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-1">
-                                        <input type="text" class="form-control form-control-sm" name="dz[oplata_client]" id="oplata_client" required placeholder="Стоимость оплаты для клиента">
+                                        <input type="text" class="form-control form-control-sm" name="dz[oplata_client]" id="oplata_client" required placeholder="Стоимость оплаты для клиента" value="{{ $history->dz->oplata_client }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-1">
                                         <select class="form-select form-select-sm" name="dz[forma_oplata_client]" id="forma_oplata_client" required>
-                                            <option value="" selected>Форма оплаты для клиента</option>
-                                            <option value="С НДС">С НДС</option>
-                                            <option value="Без НДС">Без НДС</option>
-                                            <option value="На карту">На карту</option>
-                                            <option value="Нет">Нет</option>
+                                            <option value="">Форма оплаты для клиента</option>
+                                            @foreach($oplati as $oplata)
+                                                @if($history->dz->forma_oplata_client == $oplata)
+                                                    <option value="{{ $oplata }}" selected>{{ $oplata }}</option>
+                                                @else
+                                                    <option value="{{ $oplata }}">{{ $oplata }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-3 hidden">
                                     <div class="mb-1">
                                         <label class="form-label" style="font-size: 12px; font-weight: 700">Прибыль</label>
-                                        <input type="text" class="form-control form-control-sm" name="dz[pribl]" id="pribl" readonly>
+                                        <input type="text" class="form-control form-control-sm" name="dz[pribl]" id="pribl" readonly value="{{ $history->dz->pribl }}">
                                     </div>
                                 </div>
                                 <div class="col-md-3 hidden">
                                     <div class="mb-1">
                                         <label class="form-label" style="font-size: 12px; font-weight: 700">Рентабельность</label>
-                                        <input type="text" class="form-control form-control-sm" name="dz[rent]" id="rent" readonly>
+                                        <input type="text" class="form-control form-control-sm" name="dz[rent]" id="rent" readonly value="{{ $history->dz->rent }}">
                                     </div>
                                 </div>
                                 <div class="col-md-3 hidden">
                                     <div class="mb-1">
                                         <label class="form-label" style="font-size: 12px; font-weight: 700">Логисту</label>
-                                        <input type="text" class="form-control form-control-sm" name="dz[logist_pribl]" id="logist_pribl" readonly>
+                                        <input type="text" class="form-control form-control-sm" name="dz[logist_pribl]" id="logist_pribl" readonly value="{{ $history->dz->logist_pribl }}">
                                     </div>
                                 </div>
                                 <div class="col-md-3 hidden">
                                     <div class="mb-1">
                                         <label class="form-label" style="font-size: 12px; font-weight: 700">Продажнику</label>
-                                        <input type="text" class="form-control form-control-sm" name="dz[prodaznik_pribl]" id="prodaznik_pribl" readonly>
+                                        <input type="text" class="form-control form-control-sm" name="dz[prodaznik_pribl]" id="prodaznik_pribl" readonly value="{{ $history->dz->prodaznik_pribl }}">
                                     </div>
                                 </div>
-                                <input type="hidden" name="min_rent" id="min_rent" value="">
+                                <input type="hidden" name="min_rent" id="min_rent" value="{{ $history->min_rent }}">
                                 <div class="col-md-12 hidden">
                                     <div class="alert mt-2 mb-0" role="alert" id="indikator_otgruzki" style="display: none;"></div>
                                 </div>
@@ -416,46 +419,54 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-1">
-                                        <input type="text" class="form-control form-control-sm" name="dz[oplata_perevozchik]" id="oplata_perevozchik" required placeholder="Стоимость оплаты для перевозчика">
+                                        <input type="text" class="form-control form-control-sm" name="dz[oplata_perevozchik]" id="oplata_perevozchik" required placeholder="Стоимость оплаты для перевозчика" value="{{ $history->dz->oplata_perevozchik }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-1">
                                         <select class="form-select form-select-sm" name="dz[forma_oplata_company]" id="forma_oplata_company" required>
                                             <option value="" selected>Форма оплаты</option>
-                                            <option value="С НДС">С НДС</option>
-                                            <option value="Без НДС">Без НДС</option>
-                                            <option value="На карту">На карту</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-1">
-                                        <select class="form-select form-select-sm" name="dz[cshet_company]" id="cshet_company" required>
-                                            <option value="" selected>Счёт на компанию</option>
-                                            @foreach ($companies as $company)
-                                                <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+                                            @foreach($oplati as $oplata)
+                                                @if($oplata != "Нет")
+                                                    @if($history->dz->forma_oplata_company == $oplata)
+                                                        <option value="{{ $oplata }}" selected>{{ $oplata }}</option>
+                                                    @else
+                                                        <option value="{{ $oplata }}">{{ $oplata }}</option>
+                                                    @endif
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-1">
+                                        <select class="form-select form-select-sm" name="dz[cshet_company]" id="cshet_company" required>
+                                            <option value="">Счёт на компанию</option>
+                                            @foreach ($companies as $company)
+                                                @if($history->dz->cshet_company == $company->company_name)
+                                                    <option selected value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+                                                @else
+                                                    <option value="{{ $company->company_name }}">{{ $company->company_name }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                @php
+                                $srok_oplati = ["7-12 б. д. по сканам и квитку", "5 б. д. по сканам и квитку", "1 б. д. по сканам и квитку", "Предоплата 30%, остаток - 7-12 б. д. по сканам и квитку. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.",                                             "Предоплата 50%, остаток - 7-12 б. д. по сканам и квитку. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.", "Предоплата 80%, остаток - 7-12 б. д. по сканам и квитку. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.", "7-12 б. д. по оригиналам документов", "5 б. д. по оригиналам документов", "1 б. д. по оригиналам документов", "Предоплата 30%, остаток - 7-12 б. д. по оригиналам документов. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.", "Предоплата 50%, остаток - 7-12 б. д. по оригиналам документов. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.", "Предоплата 80%, остаток - 7-12 б. д. по оригиналам документов. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.", "По сканам после выгрузки"]
+                                @endphp
+                                <div class="col-md-6">
+                                    <div class="mb-1">
                                         <select class="form-select form-select-sm" name="dz[srok_oplata]" id="srok_oplata" required data-placeholder="Срок оплаты">
                                             <option value="">Выберите срок оплаты</option>
-                                            <option>7-12 б. д. по сканам и квитку</option>
-                                            <option>5 б. д. по сканам и квитку</option>
-                                            <option>1 б. д. по сканам и квитку</option>
-                                            <option>Предоплата 30%, остаток - 7-12 б. д. по сканам и квитку. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.</option>
-                                            <option>Предоплата 50%, остаток - 7-12 б. д. по сканам и квитку. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.</option>
-                                            <option>Предоплата 80%, остаток - 7-12 б. д. по сканам и квитку. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.</option>
-                                            <option>7-12 б. д. по оригиналам документов</option>
-                                            <option>5 б. д. по оригиналам документов</option>
-                                            <option>1 б. д. по оригиналам документов</option>
-                                            <option>Предоплата 30%, остаток - 7-12 б. д. по оригиналам документов. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.</option>
-                                            <option>Предоплата 50%, остаток - 7-12 б. д. по оригиналам документов. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.</option>
-                                            <option>Предоплата 80%, остаток - 7-12 б. д. по оригиналам документов. В случае получения предоплаты исполнитель обязуется доставить груз в место выгрузки.</option>
-                                            <option>По сканам после выгрузки</option>
+                                            @foreach($srok_oplati as $srok_oplata)
+                                                @if($history->dz->srok_oplata == $srok_oplata)
+                                                    <option value="{{ $srok_oplata }}" selected>{{ $srok_oplata }}</option>
+                                                @else
+                                                    <option value="{{ $srok_oplata }}">{{ $srok_oplata }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -466,9 +477,13 @@
                                             <div class="col-md-10">
                                                 <div class="mb-1">
                                                     <select class="form-select form-select-sm" name="dz[partner_name]" id="partner_name">
-                                                        <option value="Не выбрано" selected>Выберите партнера</option>
+                                                        <option value="Не выбрано">Выберите партнера</option>
                                                         @foreach ($partner_companies as $partner_company)
-                                                            <option value="{{ $partner_company->company_name }}">{{ $partner_company->company_name }}</option>
+                                                            @if($history->dz->partner_name == $partner_company->company_name)
+                                                                <option selected value="{{ $partner_company->company_name }}">{{ $partner_company->company_name }}</option>
+                                                            @else
+                                                                <option value="{{ $partner_company->company_name }}">{{ $partner_company->company_name }}</option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -640,7 +655,6 @@
             $(this).select2("close");
         });
     </script>
-
 
     <script>
         $(document).ready(function() {
