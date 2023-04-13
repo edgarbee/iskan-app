@@ -98,3 +98,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function 
         Route::post('/delete', [App\Http\Controllers\AdminController::class, 'usersDelete'])->name('usersDelete');
     });
 });
+
+Route::group(['prefix' => 'oil'], function () {
+    Route::get('/', [App\Http\Controllers\OilController::class, 'index'])->name('oil_index');
+    Route::post('/', [App\Http\Controllers\OilController::class, 'oilRequest'])->name('oilRequest');
+});

@@ -103,7 +103,7 @@
     <p style="font-weight: bold; font-size: 10px; text-align: center">Договор-заявка от {{ \Carbon\Carbon::parse($dz["date"])->format('d.m.Y')}} <br> на перевозку и транспортно-экспедиционное обслуживание грузов по территории РФ</p>
     @endif
     <p style="font-size: 9px; text-align: justify">{{ $companies->company_name }}, именуемое в дальнейшем Заказчик, в лице директора {{ $companies->name_director_1 }}, действующего на основании
-    Устава с одной стороны и {{ $dz["perevozchik_name"] }} в лице руководителя {{ $voditel->name_director }}, именуемое в дальнейшем
+    Устава с одной стороны и {{ $dz["perevozchik_name"] }} в лице руководителя {{ $carrier_company->name_director }}, именуемое в дальнейшем
     «Исполнитель», действующего на основании Устава/свидетельства, с другой стороны, совместно именуемые «Стороны» а по отдельности
     «Сторона», заключили настоящий Договор о нижеследующем:
     </p>
@@ -363,7 +363,7 @@
                 </table>
 
                 <div style="padding: 0.5rem 0.5rem; font-size: 9px">
-                    {!! str_replace(array("\n"), '<br>', $voditel->contacts) !!}
+                    {!! str_replace(array("\n"), '<br>', $carrier_company->contacts) !!}
                 </div>
             </td>
         </tr>
@@ -378,7 +378,7 @@
                 @endif
             </div>
         </td>
-            <td style="font-size: 9px; padding-top: 120px;border-top:0px solid #fff !important; text-align:center; border: 1px solid #dee2e6">_________________/{{ $voditel->name_director }}</td>
+            <td style="font-size: 9px; padding-top: 120px;border-top:0px solid #fff !important; text-align:center; border: 1px solid #dee2e6">_________________/{{ $carrier_company->name_director }}</td>
         </tr>
     </table>
 

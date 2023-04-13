@@ -37,7 +37,16 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     }
+
+    .oil {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 </style>
+<div class="oil">
+    <a href="{{ route('oil_index') }}">Заявки на топливо</a>
+</div>
 <main class="form-signin w-100 m-auto">
   <form  method="POST" action="{{ route('login') }}">
     @csrf

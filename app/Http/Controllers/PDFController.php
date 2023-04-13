@@ -28,6 +28,9 @@ class PDFController extends Controller
             $partner = 1;
         }
 
+        $carrier_company = Carrier::select('name_director', 'contacts')
+            ->where('perevozchik_name', '=', str_replace(array("\r\n", "\r", "\n"), '', $dz["perevozchik_name"]))
+            ->first();
 
         $voditel = Carrier::select('perevozchik_voditel','perevozchik_tel','pasport_voditel','vod_pas', 'name_director', 'code_ATI', 'perevozchik_email', 'contacts', 'karta_sber')
         ->where('perevozchik_voditel', '=', str_replace(array("\r\n", "\r", "\n"), '', $dz["perevozchik_voditel"]))
@@ -42,6 +45,7 @@ class PDFController extends Controller
             $data = [
                 'dz' => $dz,
                 'companies' => $companies,
+                'carrier_company' => $carrier_company,
                 'voditel' => $voditel,
                 'partner' => $partner,
                 'type_doc' => $request->input('type_doc'),
