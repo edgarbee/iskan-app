@@ -52,10 +52,7 @@
 
                         <div class="col-md-3">
                             <div class="mb-1 form-floating">
-                                <select class="form-select" name="oil[seller]" required>
-                                    <option value="" selected>Выберите продажника</option>
-                                    <option value="Светлана">Светлана</option>
-                                </select>
+                                <input type="text" class="form-control" name="oil[seller]" required placeholder="Контрагент">
                                 <label>Продажник</label>
                             </div>
                         </div>
@@ -270,13 +267,13 @@
                 if(vink == 'Газпромнефть'){
                     var oil = $(this).parent().parent().parent().find('.oil');
                     oil.find('option').remove();
-                    oil.append('<option value="АИ-100">АИ-100</option><option value="Аи-80">Аи-80</option><option value="Аи-92(Аи-92 + Аи-92 ОПТИ)">Аи-92(Аи-92 + Аи-92 ОПТИ)</option><option value="Аи-92 Премиум">Аи-92 Премиум</option><option value="Аи-95(Аи-95 + Аи-95 ОПТИ)">Аи-95(Аи-95 + Аи-95 ОПТИ)</option><option value="Аи-95 Премиум">Аи-95 Премиум</option><option value="Аи-98">Аи-98</option><option value="Аи-98 Премиум">Аи-98 Премиум</option><option value="ДТ(ДТ + ДТ ОПТИ + ДТ Зимнее)">ДТ(ДТ + ДТ ОПТИ + ДТ Зимнее)</option><option value="ДТ Премиум">ДТ Премиум</option>');
+                    oil.append('<option value="АИ-100">АИ-100</option><option value="Аи-80">Аи-80</option><option value="Аи-92(Аи-92 + Аи-92 ОПТИ)">Аи-92(Аи-92 + Аи-92 ОПТИ)</option><option value="Аи-92 Премиум">Аи-92 Премиум</option><option value="Аи-95(Аи-95 + Аи-95 ОПТИ)">Аи-95(Аи-95 + Аи-95 ОПТИ)</option><option value="Аи-95 Премиум">Аи-95 Премиум</option><option value="Аи-98">Аи-98</option><option value="Аи-98 Премиум">Аи-98 Премиум</option><option value="ДТ(ДТ + ДТ ОПТИ + ДТ Зимнее)">ДТ(ДТ + ДТ ОПТИ + ДТ Зимнее)</option><option value="ДТ Премиум">ДТ Премиум</option><option value="Газ">Газ</option>');
                 }
 
                 if(vink == 'Роснефть'){
                     var oil = $(this).parent().parent().parent().find('.oil');
                     oil.find('option').remove();
-                    oil.append('<option value="Топливо ВСЕ">Топливо ВСЕ</option><option value="АИ-100">АИ-100</option><option value="АИ-100-Фирм">АИ-100-Фирм</option><option value="Все виды АИ-100">Все виды АИ-100</option><option value="АИ-98">АИ-98</option><option value="АИ-98-Фирм">АИ-98-Фирм</option><option value="Все виды АИ-98">Все виды АИ-98</option><option value="АИ-95">АИ-95</option><option value="АИ-95-Фирм">АИ-95-Фирм</option><option value="Все виды АИ-95">Все виды АИ-95</option><option value="АИ-92">АИ-92</option><option value="АИ-92-Фирм">АИ-92-Фирм</option><option value="Все виды АИ-92">Все виды АИ-92</option><option value="ДТ">ДТ</option><option value="ДТ-Зим">ДТ-Зим</option><option value="ДТ-Фирм">ДТ-Фирм</option><option value="ДТ-Аркт">ДТ-Аркт</option><option value="ДТ-Меж">ДТ-Меж</option><option value="Все виды ДТ">Все виды ДТ</option>');
+                    oil.append('<option value="Топливо ВСЕ">Топливо ВСЕ</option><option value="АИ-100">АИ-100</option><option value="АИ-100-Фирм">АИ-100-Фирм</option><option value="Все виды АИ-100">Все виды АИ-100</option><option value="АИ-98">АИ-98</option><option value="АИ-98-Фирм">АИ-98-Фирм</option><option value="Все виды АИ-98">Все виды АИ-98</option><option value="АИ-95">АИ-95</option><option value="АИ-95-Фирм">АИ-95-Фирм</option><option value="Все виды АИ-95">Все виды АИ-95</option><option value="АИ-92">АИ-92</option><option value="АИ-92-Фирм">АИ-92-Фирм</option><option value="Все виды АИ-92">Все виды АИ-92</option><option value="ДТ">ДТ</option><option value="ДТ-Зим">ДТ-Зим</option><option value="ДТ-Фирм">ДТ-Фирм</option><option value="ДТ-Аркт">ДТ-Аркт</option><option value="ДТ-Меж">ДТ-Меж</option><option value="Все виды ДТ">Все виды ДТ</option><option value="Газ">Газ</option>');
                 }
             })
         });
