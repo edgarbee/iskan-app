@@ -11,6 +11,7 @@
 
             <div class="text-end">
                 <div class="d-flex align-items-center text-dark text-decoration-none">
+                    <div><a href="{{ route("oil_index") }}" class="nav-link text-dark pe-4">Заявка на топливо</a></div>
                     <div><a href="#" data-bs-toggle="modal" data-bs-target="#history" class="nav-link text-dark pe-4">История</a></div>
 
                     <img src="https://ui-avatars.com/api/?name={{ \Auth::user()->name }}" alt="" width="32" height="32" class="rounded-circle me-2">
