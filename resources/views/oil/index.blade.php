@@ -228,7 +228,7 @@
 
                 if(forma_oplati == "с ндс" && client_summa > 0) {
                     $('#client_summa_nds').val(client_summa);
-                    $('#maks_skidka').val(4);
+                    $('#maks_skidka').val(5);
                 }
                 if(forma_oplati == "без ндс" && client_summa > 0) {
                     $('#client_summa_nds').val((client_summa/0.94).toFixed(2));
