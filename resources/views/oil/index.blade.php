@@ -44,6 +44,7 @@
                         </div>
                     </div>
                 @endif
+
                 <div class="col-md-12 mt-2">
                     <div class="row">
                         <div class="col-md-12 mb-2" style="font-size: 12px; font-weight: 700">
