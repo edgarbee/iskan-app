@@ -85,7 +85,7 @@
 
                         <div class="col-md-3">
                             <div class="mb-1 form-floating">
-                                <input type="number" min="0.1" step="0.1" class="form-control" name="oil[client_summa]" required placeholder="Сумма от клиента" id="client_summa">
+                                <input type="number" min="0.01" step="0.01" class="form-control" name="oil[client_summa]" required placeholder="Сумма от клиента" id="client_summa">
                                 <label>Сумма от клиента</label>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
 
                         <div class="col-md-3">
                             <div class="mb-1 form-floating">
-                                <input type="number" min="0.1" step="0.1" class="form-control" name="oil[client_summa_nds]" required placeholder="Сумма от клиента с НДС" id="client_summa_nds">
+                                <input type="number" min="0.01" step="0.01" class="form-control" name="oil[client_summa_nds]" required placeholder="Сумма от клиента с НДС" id="client_summa_nds">
                                 <label>Сумма от клиента с НДС</label>
                             </div>
                         </div>
@@ -115,14 +115,14 @@
 
                         <div class="col-md-3">
                             <div class="mb-1 form-floating">
-                                <input type="number" min="0.1" step="0.1" class="form-control" name="oil[maks_skidka]" readonly placeholder="Максимальная скидка" id="maks_skidka">
+                                <input type="number" min="0.01" step="0.01" class="form-control" name="oil[maks_skidka]" readonly placeholder="Максимальная скидка" id="maks_skidka">
                                 <label>Максимальная скидка</label>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="mb-1 form-floating">
-                                <input type="number" min="0.1" step="0.1" class="form-control" name="oil[client_skidka]" required placeholder="Cкидка для клиента" id="client_skidka">
+                                <input type="number" min="0.01" step="0.01" class="form-control" name="oil[client_skidka]" required placeholder="Cкидка для клиента" id="client_skidka">
                                 <label>Cкидка для клиента</label>
                             </div>
                         </div>
@@ -133,21 +133,21 @@
 
                         <div class="col-md-3">
                             <div class="mb-1 form-floating">
-                                <input type="number" min="0.1" step="0.1" class="form-control" name="oil[summa_zapravki]" readonly placeholder="Сумма к заправке" id="summa_zapravki">
+                                <input type="number" min="0.01" step="0.01" class="form-control" name="oil[summa_zapravki]" readonly placeholder="Сумма к заправке" id="summa_zapravki">
                                 <label>Сумма к заправке</label>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="mb-1 form-floating">
-                                <input type="number" min="0.1" step="0.1" class="form-control" name="oil[summa_otpravki]" readonly placeholder="Сумма к отправке" id="summa_otpravki">
+                                <input type="number" min="0.01" step="0.01" class="form-control" name="oil[summa_otpravki]" readonly placeholder="Сумма к отправке" id="summa_otpravki">
                                 <label>Сумма к отправке</label>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="mb-1 form-floating">
-                                <input type="number" min="0.1" step="0.1" class="form-control" name="oil[pribl]" readonly placeholder="Прибль" id="pribl">
+                                <input type="number" min="0.01" step="0.01" class="form-control" name="oil[pribl]" readonly placeholder="Прибль" id="pribl">
                                 <label>Прибль</label>
                             </div>
                         </div>
@@ -191,7 +191,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-1 form-floating">
-                                        <input type="number" min="0.1" step="0.1" class="form-control" name="driver[0][limit]" required placeholder="Лимит">
+                                        <input type="number" min="0.01" step="0.01" class="form-control" name="driver[0][limit]" required placeholder="Лимит">
                                         <label>Лимит</label>
                                     </div>
                                 </div>
@@ -284,7 +284,7 @@
         $(document).ready(function() {
             var $i=1;
             $('#addDrivers').on('click', function(){
-                $('#drivers').append('<div class="col-md-12"> <div class="row"><div class="col-md-12 mb-2 mt-2" style="font-size: 12px; font-weight: 700"> <span style="color:#d0021b">*</span> Водитель '+($i+1)+' </div> <div class="col-md-3"> <div class="mb-1 form-floating"> <input type="text" class="form-control" name="driver['+$i+'][name]" required placeholder="ФИО водителя"> <label>ФИО водителя</label> </div> </div> <div class="col-md-3"> <div class="mb-1 form-floating"> <input type="tel" class="form-control tel" name="driver['+$i+'][tel]" required placeholder="Телефон водителя"> <label>Телефон водителя</label> </div> </div> <div class="col-md-3"> <div class="mb-1 form-floating"> <select class="form-select vink" name="driver['+$i+'][vink]" required> <option value="" selected>Выберите ВИНК</option> <option value="Лукойл">Лукойл</option> <option value="Газпромнефть">Газпромнефть</option> <option value="Роснефть">Роснефть</option> </select> <label>ВИНК</label> </div> </div> <div class="col-md-3"> <div class="form-floating"> <select class="form-select oil " name="driver['+$i+'][oil]" required> </select> <label>Топливо</label> </div> </div> <div class="col-md-3"> <div class="mb-1 form-floating"> <input type="number" min="0.1" step="0.1" class="form-control" name="driver['+$i+'][limit]" required placeholder="Лимит"> <label>Лимит</label> </div> </div></div> </div>');
+                $('#drivers').append('<div class="col-md-12"> <div class="row"><div class="col-md-12 mb-2 mt-2" style="font-size: 12px; font-weight: 700"> <span style="color:#d0021b">*</span> Водитель '+($i+1)+' </div> <div class="col-md-3"> <div class="mb-1 form-floating"> <input type="text" class="form-control" name="driver['+$i+'][name]" required placeholder="ФИО водителя"> <label>ФИО водителя</label> </div> </div> <div class="col-md-3"> <div class="mb-1 form-floating"> <input type="tel" class="form-control tel" name="driver['+$i+'][tel]" required placeholder="Телефон водителя"> <label>Телефон водителя</label> </div> </div> <div class="col-md-3"> <div class="mb-1 form-floating"> <select class="form-select vink" name="driver['+$i+'][vink]" required> <option value="" selected>Выберите ВИНК</option> <option value="Лукойл">Лукойл</option> <option value="Газпромнефть">Газпромнефть</option> <option value="Роснефть">Роснефть</option> </select> <label>ВИНК</label> </div> </div> <div class="col-md-3"> <div class="form-floating"> <select class="form-select oil " name="driver['+$i+'][oil]" required> </select> <label>Топливо</label> </div> </div> <div class="col-md-3"> <div class="mb-1 form-floating"> <input type="number" min="0.01" step="0.01" class="form-control" name="driver['+$i+'][limit]" required placeholder="Лимит"> <label>Лимит</label> </div> </div></div> </div>');
                 $i++;
             })
         });

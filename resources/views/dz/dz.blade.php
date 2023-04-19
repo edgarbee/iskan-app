@@ -691,7 +691,7 @@
                 address_vigruzki = address_vigruzki.split(" | ");
                 for (key in address_vigruzki) {
                     if (address_vigruzki.hasOwnProperty(key)) {
-                        $('#address_vigruzki_contact').append('<option value="'+address_vigruzki[key]+'">'+address_vigruzki[key]+'</option>');
+
                     }
                 }
 
@@ -880,7 +880,7 @@
                     $logist_pribl.val(($summa/5).toFixed(2)+' ₽');
                     $prodaznik_pribl.val((($summa/5)/2).toFixed(2)+' ₽');
 
-                    if(forma_oplata_company == "Без НДС" && ($summa*0.7/oplata_perevozchik) > 0.08 && oplata_perevozchik > 19999) {
+                    if(forma_oplata_company == "Без НДС") {
                         $('#indikator_otgruzki').show().addClass('alert-success').removeClass('alert-danger').text('Можно отгружать');
                         $('#btnSub, #btnSub1, #btnSub2').prop('disabled', false);
                     } else if (forma_oplata_company == "На карту" && ($summa*0.7/oplata_perevozchik) > 0.08) {
